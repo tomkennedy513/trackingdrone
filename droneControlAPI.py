@@ -2,28 +2,38 @@
 
 
 def takeoff():
-
+    vehicle.mode = VehicleMode("LOITER")
+    vehicle.armed = True
+    sleep(1)
+    vehicle.channel_override = {"3":2000}
+    sleep(3)
+    vehicle.channel_override = {"3":1500}
     return;
 
 
 def land():
-
+    vehicle.mode = VehicleMode("LAND")
+    releaseControllAll()
     return;
 
-def altDecV(int):
-
+def altDecV( pcnt ):
+    vehicle.channel_override = {"3":(1500-(pcnt*5))}
     return;
 
 def altDecP():
-
+    vehicle.channel_override = {"3":1250}
+    sleep(0.5)
+    vehicle.channel_override = {"3":1500}
     return;
 
-def altIncV(int):
-
+def altIncV( pcnt ):
+    vehicle.channel_override = {"3":(1500+(pcnt*5))}
     return;
 
 def altIncP():
-
+    vehicle.channel_override = {"3":1750}
+    sleep(0.5)
+    vehicle.channel_override = {"3":1500}
     return;
 
 def leftV(int):
