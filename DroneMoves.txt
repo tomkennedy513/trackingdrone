@@ -1,0 +1,19 @@
+Drone Ready
+Automated Takeoff
+Automated Landing
+Automated Takeoff
+Track Line
+Error!
+Track Object
+Lost!
+Track Line
+End Tracking
+Track Object
+Error!
+Emergency Landing
+Automated Takeoff
+Track Line
+Lost!
+Track Object
+End Tracking
+Automated Landing
