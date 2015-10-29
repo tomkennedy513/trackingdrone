@@ -1,137 +1,152 @@
 ﻿# This API is used to control the drone through Python and DroneAPI in MAVProxy. Please see the Google Doc for documentation on what these functions do.
 
+import time
+from droneControlAPI.lib import VehicleMode, Locations, Command
+from pymavlink import mavutil
 
-def takeoff():
-    vehicle.mode = VehicleMode("LOITER")
-    vehicle.armed = True
-    sleep(1)
-    vehicle.channel_override = {"3":2000}
-    sleep(3)
-    vehicle.channel_override = {"3":1500}
-    return;
-#comment
 
-def land():
-    vehicle.mode = VehicleMode("LAND")
-    releaseControllAll()
-    return;
+class mikeObkect:
+    def __init__(self):
+        #initialize vehicle
+        api = local_connect()
+        vehicle = api.get_vehicles()[0]
+        return;
 
-def altDecV( pcnt ):
-    vehicle.channel_override = {"3":(1500-(pcnt*5))}
-    return;
+    def takeoff(self):
+        self.vehicle.mode = VehicleMode("LOITER")
+        self.vehicle.armed = True
+        time.sleep(1)
+        self.vehicle.channel_override = {"3":2000}
+        time.sleep(3)
+        self.vehicle.channel_override = {"3":1500}
+        return;
 
-def altDecP():
-    vehicle.channel_override = {"3":1250}
-    sleep(0.5)
-    vehicle.channel_override = {"3":1500}
-    return;
+    def land(self):
+        self.vehicle.mode = VehicleMode("LAND")
+        releaseControllAll()
+        return;
 
-def altIncV( pcnt ):
-    vehicle.channel_override = {"3":(1500+(pcnt*5))}
-    return;
+    def hover(self):
+        self.vehicle.mode = VehicleMode("LOITER")
+        self.vehicle.channel_override = {"1":1500, "2":1500, "3":1500, "4":1500}
+        return;
 
-def altIncP():
-    vehicle.channel_override = {"3":1750}
-    sleep(0.5)
-    vehicle.channel_override = {"3":1500}
-    return;
+    def altDecV(self, pcnt ):
+        self.vehicle.channel_override = {"3":(1500-(pcnt*5))}
+        return;
 
-def leftV( pcnt ):
-    vehicle.channel_override = {"1":(1500-(pcnt*5))}
-    return;
+    def altDecP(self):
+        self.vehicle.channel_override = {"3":1250}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"3":1500}
+        return;
+
+    def altIncV(self, pcnt ):
+        self.vehicle.channel_override = {"3":(1500+(pcnt*5))}
+        return;
+
+    def altIncP(self):
+        self.vehicle.channel_override = {"3":1750}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"3":1500}
+        return;
+
+    def leftV(self, pcnt ):
+        self.vehicle.channel_override = {"1":(1500-(pcnt*5))}
+        return;
    
-def leftP():
-    vehicle.channel_override = {"1":1250}
-    sleep(0.5)
-    vehicle.channel_override = {"1":1500}
-    return;
+    def leftP(self):
+        self.vehicle.channel_override = {"1":1250}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"1":1500}
+        return;
 
-def rightV( pcnt ):
-    vehicle.channel_override = {"1":(1500+(pcnt*5))}
-    return;
+    def rightV(self, pcnt ):
+        self.vehicle.channel_override = {"1":(1500+(pcnt*5))}
+        return;
 
-def rightP():
-    vehicle.channel_override = {"1":1750}
-    sleep(0.5)
-    vehicle.channel_override = {"1":1500}
-    return;
+    def rightP(self):
+        self.vehicle.channel_override = {"1":1750}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"1":1500}
+        return;
 
-def forwardV( pcnt ):
-    vehicle.channel_override = {"2":(1500+(pcnt*5))}
-    return;
+    def forwardV(self, pcnt ):
+        self.vehicle.channel_override = {"2":(1500+(pcnt*5))}
+        return;
 
-def forwardP():
-    vehicle.channel_override = {"2":1750}
-    sleep(0.5)
-    vehicle.channel_override = {"2":1500}
-    return;
+    def forwardP(self):
+        self.vehicle.channel_override = {"2":1750}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"2":1500}
+        return;
 
-def reverseV( pcnt ):
-    vehicle.channel_override = {"2":(1500-(pcnt*5))}
-    return;
+    def reverseV(self, pcnt ):
+        self.vehicle.channel_override = {"2":(1500-(pcnt*5))}
+        return;
 
-def reverseP():
-    vehicle.channel_override = {"2":1250}
-    sleep(0.5)
-    vehicle.channel_override = {"2":1500}
-    return;
+    def reverseP(self):
+        self.vehicle.channel_override = {"2":1250}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"2":1500}
+        return;
 
-def spinLeftV( pcnt ):
-    vehicle.channel_override = {"4":(1500-(pcnt*5))}
-    return;
+    def spinLeftV(self, pcnt ):
+        self.vehicle.channel_override = {"4":(1500-(pcnt*5))}
+        return;
 
-def spinLeftP():
-    vehicle.channel_override = {"4":1250}
-    sleep(0.5)
-    vehicle.channel_override = {"4":1500}
-    return;
+    def spinLeftP(self):
+        self.vehicle.channel_override = {"4":1250}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"4":1500}
+        return;
 
-def spinRightV( pcnt ):
-    vehicle.channel_override = {"4":(1500+(pcnt*5))}
-    return;
+    def spinRightV(self, pcnt ):
+        self.vehicle.channel_override = {"4":(1500+(pcnt*5))}
+        return;
 
-def spinRightP():
-    vehicle.channel_override = {"4":1750}
-    sleep(0.5)
-    vehicle.channel_override = {"4":1500}
-    return;
+    def spinRightP(self):
+        self.vehicle.channel_override = {"4":1750}
+        time.sleep(0.5)
+        self.vehicle.channel_override = {"4":1500}
+        return;
 
-def releaseControlAlt():
-    vehicle.channel_override = {"3":0}
-    return;
+    def releaseControlAlt(self):
+        self.vehicle.channel_override = {"3":0}
+        return;
 
-def releaseControlYaw():
-    vehicle.channel_override = {"4":0}
-    return;
+    def releaseControlYaw(self):
+        self.vehicle.channel_override = {"4":0}
+        return;
 
-def releaseControlSide():
-    vehicle.channel_override = {"1":0}
-    return;
+    def releaseControlSide(self):
+        self.vehicle.channel_override = {"1":0}
+        return;
 
-def releaseControlFB():
-    vehicle.channel_override = {"2":0}
-    return;
+    def releaseControlFB(self):
+        self.vehicle.channel_override = {"2":0}
+        return;
 
-def releaseControlAll():
-    vehicle.channel_override = {"1":0, "2":0, "3":0, "4":0}
-    return;
+    def releaseControlAll(self):
+        self.vehicle.channel_override = {"1":0, "2":0, "3":0, "4":0}
+        return;
 
-def getAltitude():
+    def getAltitude(self):
 
-    return;
+        return;
 
-def getHeading():
+    def getHeading(self):
 
-    return;
+        return;
 
-def getAngle():
+    def getAngle(self):
 
-    return;
+        return;
 
-def getGPSPosition():
+    def getGPSPosition(self):
 
-    return;
+        return;
 
 
-# GPS COORDINATES
-# Input GPS coordinates, set mode to auto
+    # GPS COORDINATES
+    # Input GPS coordinates, set mode to auto
