@@ -10,8 +10,8 @@ yPts = []
 
 
 def selectROI(event, x, y, flags, param):
-    global frame, roiPts, inputMode, yPts, xPts
-    if inputMode and event == cv2.EVENT_LBUTTONDOWN and len(roiPts) < 4:
+	global frame, roiPts, inputMode, yPts, xPts
+	if inputMode and event == cv2.EVENT_LBUTTONDOWN and len(roiPts) < 4:
 		roiPts.append((x, y))
 		xPts.append(x)
 		yPts.append(y)
@@ -21,7 +21,6 @@ def selectROI(event, x, y, flags, param):
 		if len(roiPts) == 4:
 			cv2.circle(frame, ((sum(xPts) / 4), (sum(yPts) / 4)), 1, (255, 0, 0), 2)
 			cv2.imshow("frame", frame)
-
 
 def main():
 	global frame, roiPts, inputMode
@@ -82,22 +81,20 @@ def main():
 			roi = orig[tl[1]:br[1], tl[0]:br[0]]
 			roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 			# roi = cv2.cvtColor(roi, cv2.COLOR_BGR2LAB)
-			mask = cv2.inRange(roi, np.array((0., 30.,32.)), np.array((180.,255.,255.)))
+			mask = cv2.inRange(roi, np.array((0., 60.,32.)), np.array((180.,255.,255.)))
 			roiHist = cv2.calcHist([roi], [0], mask, [180], [0, 180])
 			roiHist = cv2.normalize(roiHist, roiHist, 0, 255, cv2.NORM_MINMAX)
-
 			roiBox = (tl[0], tl[1], br[0], br[1])
 			print roiBox
-		# choose new target without resetting
-		elif key == ord("r"):
-			frame = None
-			roiPts = []
-			inputMode = False
-			xPts = []
-			yPts = []
-		elif key == ord("q"):
-			break
-
+			# choose new target without resetting
+			elif key == ord("r"):
+                frame = None
+				roiPts = []
+				inputMode = False
+				xPts = []
+				yPts = []
+            elif key == ord("q"):
+				break
 
 	camera.release()
 	cv2.destroyAllWindows()
