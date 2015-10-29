@@ -9,7 +9,7 @@ class mikeObject:
     def __init__(self):
         #initialize vehicle
         api = local_connect()
-        vehicle = api.get_vehicles()[0]
+        self.vehicle = api.get_vehicles()[0]
         return;
 
     def takeoff(self):
