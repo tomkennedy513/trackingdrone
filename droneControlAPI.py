@@ -1,6 +1,5 @@
 ﻿# This API is used to control the drone through Python and DroneAPI in MAVProxy. Please see the Google Doc for documentation on what these functions do.
 
-
 def takeoff():
     vehicle.mode = VehicleMode("LOITER")
     vehicle.armed = True
@@ -9,7 +8,6 @@ def takeoff():
     sleep(3)
     vehicle.channel_override = {"3":1500}
     return;
-#comment
 
 def land():
     vehicle.mode = VehicleMode("LAND")
