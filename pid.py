@@ -1,25 +1,13 @@
 import time
 
 class PID:
-    def __init__(self):
+    def __init__(self, Kp, Kd, Ki):
         # initialze gains
-        self.Kp = 0
-        self.Kd = 0
-        self.Ki = 0
+        self.Kp = Kp
+        self.Kd = Kd
+        self.Ki = Ki
 
         self.Initialize()
-
-    def SetKp(self, invar):
-        self.Kp = invar
-
-    def SetKi(self, invar):
-        self.Ki = invar
-
-    def SetKd(self, invar):
-        self.Kd = invar
-
-    def SetPrevErr(self, preverr):
-        self.prev_err = preverr
 
     def Initialize(self):
         # initialize delta t variables
