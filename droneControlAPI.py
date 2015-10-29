@@ -9,7 +9,7 @@ def takeoff():
     sleep(3)
     vehicle.channel_override = {"3":1500}
     return;
-
+#comment
 
 def land():
     vehicle.mode = VehicleMode("LAND")
