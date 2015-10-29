@@ -1,0 +1,202 @@
+#!/usr/bin/python
+# DroneStateMachine\DroneState.py
+# State Machine pattern using 'if' statements
+# to determine the next state.
+import string, sys
+''''sys.path += ['..\DroneStateMachine']
+from State import State
+from StateMachine import StateMachine
+from DroneAction import DroneAction'''
+import tkinter as tk
+
+
+class State:
+    def run(self):
+        assert 0, "run not implemented"
+    def next(self, input):
+        assert 0, "next not implemented"
+
+class StateMachine:
+    def __init__(self, initialState):
+        self.currentState = initialState
+        self.currentState.run()
+    # Template method:
+    def runAll(self, inputs):
+        for i in inputs:
+            '''print(i)'''
+            self.currentState = self.currentState.next(i)
+            self.currentState.run()
+    def run(self, input):
+        self.currentState = self.currentState.next(input)
+        self.currentState.run()
+
+class DroneAction:
+    def __init__(self, action):
+        self.action = action
+    def __str__(self): return self.action
+    def __cmp__(self, other):
+        return cmp(self.action, other.action)
+    # Necessary when __cmp__ or __eq__ is defined
+    # in order to make this class usable as a
+    # dictionary key:
+    def __hash__(self):
+        return hash(self.action)
+
+# Static fields; an enumeration of instances:
+DroneAction.ready = DroneAction("Drone Ready")
+DroneAction.takeoff = DroneAction("Automated Takeoff")
+DroneAction.land = DroneAction("Automated Landing")
+DroneAction.eland = DroneAction("Emergency Landing")
+DroneAction.trackLine = DroneAction("Track Line")
+DroneAction.trackObject = DroneAction("Track Object")
+DroneAction.end = DroneAction("End Tracking")
+DroneAction.error = DroneAction("Error!")
+DroneAction.lost = DroneAction("Lost!")
+
+# A different subclass for each state:
+
+class Boot(State):
+    def run(self):
+        print("Boot Sequence: Please Wait...")
+
+    def next(self, input):
+        if input == DroneAction.ready:
+            return DroneState.ready
+        return DroneState.boot
+
+class Ready(State):
+    def run(self):
+        print("Okay ready, LMK when to takeoff")
+
+    def next(self, input):
+        if input == DroneAction.takeoff:
+            print('Will takeoff now')
+            return DroneState.hover
+        return DroneState.ready
+
+class Hover(State):
+    def run(self):
+        print("Yay I'm Hovering, LMK what to do")
+
+    def next(self, input):
+        if input == DroneAction.eland:
+            print('This is an Emergency Landing!')
+            return DroneState.ready
+        if input == DroneAction.land:
+            print('Standard landing')
+            return DroneState.ready
+        if input == DroneAction.trackLine:
+            print('Will follow the line')
+            return DroneState.trackLine
+        if input == DroneAction.trackObject:
+            print('Will track the object')
+            return DroneState.trackObject
+        return DroneState.hover
+
+class TrackLine(State):
+    def run(self):
+        print("Look I'm Following a Line!!")
+
+    def next(self, input):
+        if input == DroneAction.error:
+            print('Error!!')
+            return DroneState.hover
+        if input == DroneAction.end:
+            print('Will stop tracking now')
+            return DroneState.hover
+        if input == DroneAction.lost:
+            print('Oh no, I lost it :(' )
+            return DroneState.hover
+        return DroneState.trackLine
+
+class TrackObject(State):
+    def run(self):
+        print("Look I'm Tracking an Object :)")
+
+    def next(self, input):
+        if input == DroneAction.error:
+            print('Error!!')
+            return DroneState.hover
+        if input == DroneAction.end:
+            print('Will stop tracking now')
+            return DroneState.hover
+        if input == DroneAction.lost:
+            print('Oh no, I lost it :(' )
+            return DroneState.hover
+        return DroneState.trackObject
+
+class DroneState(StateMachine):
+    def __init__(self):
+        # Initial state
+        StateMachine.__init__(self, DroneState.boot)
+
+
+# Static variable initialization:
+DroneState.boot = Boot()
+DroneState.ready = Ready()
+DroneState.hover = Hover()
+DroneState.trackLine = TrackLine()
+DroneState.trackObject = TrackObject()
+
+DroneInstance = DroneState()
+
+class Example(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, parent)
+
+        # create a prompt, an input box, an output label,
+        # and a button to do the computation
+        self.prompt = tk.Label(self, text="Select Operation Mode", anchor="w")
+
+        self.ready = tk.Button(self, text="Drone Ready", command = lambda: self.OnButtonClick(1))
+        self.takeoff = tk.Button(self, text="Automated Takeoff", command = lambda: self.OnButtonClick(2))
+        self.land = tk.Button(self, text="Automated Landing", command = lambda: self.OnButtonClick(3))
+        self.eland = tk.Button(self, text="Emergency Landing", command = lambda: self.OnButtonClick(4))
+        self.trackLine = tk.Button(self, text="Track Line", command = lambda: self.OnButtonClick(5))
+        self.trackObject = tk.Button(self, text="Track Object", command = lambda: self.OnButtonClick(6))
+        self.end = tk.Button(self, text="End Tracking", command = lambda: self.OnButtonClick(7))
+        self.error = tk.Button(self, text="Error!", command = lambda: self.OnButtonClick(8))
+        self.lost = tk.Button(self, text="Lost!", command = lambda: self.OnButtonClick(9))
+
+        # lay the widgets out on the screen. 
+        self.prompt.pack(side="top", fill="x")
+
+        self.ready.pack(side="top")
+        self.takeoff.pack(side="top")
+        self.land.pack(side="top")
+        self.eland.pack(side="top")
+        self.trackLine.pack(side="top")
+        self.trackObject.pack(side="top")
+        self.end.pack(side="top")
+        self.error.pack(side="top")
+        self.lost.pack(side="top")
+
+
+    def OnButtonClick(self, mode):
+        if mode == 1:
+            DroneInstance.run(DroneAction.ready)
+        elif mode == 2:
+            DroneInstance.run(DroneAction.takeoff)
+        elif mode == 3:
+            DroneInstance.run(DroneAction.land)
+        elif mode == 4:
+            DroneInstance.run(DroneAction.eland)
+        elif mode == 5:
+            DroneInstance.run(DroneAction.trackLine)
+        elif mode == 6:
+            DroneInstance.run(DroneAction.trackObject)
+        elif mode == 7:
+            DroneInstance.run(DroneAction.end)
+        elif mode == 8:
+            DroneInstance.run(DroneAction.error)
+        elif mode == 9:
+            DroneInstance.run(DroneAction.lost)
+
+# if this is run as a program (versus being imported),
+# create a root window and an instance of our example,
+# then start the event loop
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    Example(root).pack(fill="both", expand=True)
+    root.mainloop()
