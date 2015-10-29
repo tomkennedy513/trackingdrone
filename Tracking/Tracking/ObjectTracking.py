@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 import cv2
 
 
@@ -28,8 +28,8 @@ def main():
 	camera = cv2.VideoCapture(0)
 	
 	cv2.namedWindow("frame")
-	cv2.namedWindow("HSV")
-	cv2.namedWindow("Back Projection")
+	#cv2.namedWindow("HSV")
+	#cv2.namedWindow("Back Projection")
 	
 	cv2.setMouseCallback("frame", selectROI)
 	termination = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 0)
@@ -40,9 +40,9 @@ def main():
 			break
 		if roiBox is not None:
 			hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-			cv2.imshow("HSV", hsv)
+			#cv2.imshow("HSV", hsv)
 			backProj = cv2.calcBackProject([hsv], [0], roiHist, [0, 180], 1)
-			cv2.imshow("Back Projection", backProj)
+			#cv2.imshow("Back Projection", backProj)
 
 			(r, roiBox) = cv2.meanShift(backProj, roiBox, termination)
 			if not r:
