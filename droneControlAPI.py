@@ -5,7 +5,7 @@ from droneControlAPI.lib import VehicleMode, Locations, Command
 from pymavlink import mavutil
 
 
-class mikeObkect:
+class mikeObject:
     def __init__(self):
         #initialize vehicle
         api = local_connect()
