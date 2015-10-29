@@ -10,8 +10,8 @@ yPts = []
 
 
 def selectROI(event, x, y, flags, param):
-	global frame, roiPts, inputMode, yPts, xPts
-	if inputMode and event == cv2.EVENT_LBUTTONDOWN and len(roiPts) < 4:
+    global frame, roiPts, inputMode, yPts, xPts
+    if inputMode and event == cv2.EVENT_LBUTTONDOWN and len(roiPts) < 4:
 		roiPts.append((x, y))
 		xPts.append(x)
 		yPts.append(y)
@@ -64,7 +64,6 @@ def main():
 				cv2.putText(frame, 'target', (cPtx, (cPty - 7)), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
 				cv2.putText(frame, str(cPt), (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 				cv2.putText(frame, str(boxArea), (7, 55), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
-	   
 		cv2.imshow("frame", frame)
 		key = cv2.waitKey(1) & 0xFF
 
@@ -74,7 +73,6 @@ def main():
 			while len(roiPts) < 4:
 				cv2.imshow("frame", frame)
 				cv2.waitKey(0)
-			
 			roiPts = np.array(roiPts)
 			s = roiPts.sum(axis=1)
 			tl = roiPts[np.argmin(s)]
