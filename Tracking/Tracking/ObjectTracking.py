@@ -29,7 +29,7 @@ def main():
 	
 	cv2.namedWindow("frame")
 	#cv2.namedWindow("HSV")
-	#cv2.namedWindow("Back Projection")
+	cv2.namedWindow("Back Projection")
 	
 	cv2.setMouseCallback("frame", selectROI)
 	termination = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 0)
@@ -42,7 +42,7 @@ def main():
 			hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 			#cv2.imshow("HSV", hsv)
 			backProj = cv2.calcBackProject([hsv], [0], roiHist, [0, 180], 1)
-			#cv2.imshow("Back Projection", backProj)
+			cv2.imshow("Back Projection", backProj)
 
 			(r, roiBox) = cv2.meanShift(backProj, roiBox, termination)
 			if not r:
@@ -82,8 +82,8 @@ def main():
 			roi = orig[tl[1]:br[1], tl[0]:br[0]]
 			roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 			# roi = cv2.cvtColor(roi, cv2.COLOR_BGR2LAB)
-
-			roiHist = cv2.calcHist([roi], [0], None, [16], [0, 180])
+			mask = cv2.inRange(roi, np.array((0., 30.,32.)), np.array((180.,255.,255.)))
+			roiHist = cv2.calcHist([roi], [0], mask, [180], [0, 180])
 			roiHist = cv2.normalize(roiHist, roiHist, 0, 255, cv2.NORM_MINMAX)
 
 			roiBox = (tl[0], tl[1], br[0], br[1])
