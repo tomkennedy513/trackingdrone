@@ -1,15 +1,15 @@
 ﻿# This API is used to control the drone through Python and DroneAPI in MAVProxy. Please see the Google Doc for documentation on what these functions do.
 
-from dronekit import connect
-from dronekit.lib import VehicleMode
-from pymavlink import mavutil
 import time
+from droneControlAPI.lib import VehicleMode, Locations, Command
+from pymavlink import mavutil
 
 
 class mikeObkect:
     def __init__(self):
         #initialize vehicle
-        vehicle = connect(args.connect, await_params=True)
+        api = local_connect()
+        vehicle = api.get_vehicles()[0]
         return;
 
     def takeoff(self):
