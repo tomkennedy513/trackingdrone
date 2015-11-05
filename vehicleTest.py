@@ -1,4 +1,4 @@
-from droneControlAPI import mikeObject
+import droneControlAPI
 import time
 
 drone = droneControlAPI.mikeObject()
