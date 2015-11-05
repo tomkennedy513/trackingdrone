@@ -132,20 +132,22 @@ class mikeObject:
         return;
 
     def getAltitude(self):
-
-        return;
+        altitude = self.vehicle.location.global_frame.alt
+        return altitude;
 
     def getHeading(self):
 
         return;
 
     def getAngle(self):
-
-        return;
+        angle = self.vehicle.attitude.roll
+        return angle;
 
     def getGPSPosition(self):
-
-        return;
+        latidude = self.vehicle.location.global_frame.lat
+        longitude = self.vehicle.location.global_frame.lon
+        altitude = self.vehicle.location.global_frame.alt
+        return (latitude, longitude, altitude);
 
 
     # GPS COORDINATES
