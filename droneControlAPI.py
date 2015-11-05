@@ -21,6 +21,12 @@ class mikeObject:
         self.vehicle.channel_override = {"3":1500}
         return;
 
+    def armTest(self):
+        self.vehicle.armed = True
+        time.sleep(8)
+        self.vehicle.armed = False
+        return;
+
     def land(self):
         self.vehicle.mode = VehicleMode("LAND")
         releaseControllAll()
