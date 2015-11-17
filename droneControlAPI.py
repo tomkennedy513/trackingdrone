@@ -7,7 +7,7 @@ from dronekit import connect
 
 
 class mikeObject:
-    def __init__(self, vehicle):
+    def __init__(self):
         #initialize vehicle
         #api=local_connect()
         #vehicle = api.get_vehicles()[0]
@@ -22,7 +22,7 @@ class mikeObject:
         print "overriding"
         vehicle.channel_override = {'3':2000}
         print "done"
-        time.sleep(3)
+        time.sleep(2)
         vehicle.channel_override = {"3":1500}
         return;
 
@@ -63,7 +63,7 @@ class mikeObject:
 
     def altDecP(self, vehicle):
         vehicle.channel_override = {"3":1250}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"3":1500}
         return;
 
@@ -73,7 +73,7 @@ class mikeObject:
 
     def altIncP(self, vehicle):
         vehicle.channel_override = {"3":1750}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"3":1500}
         return;
 
@@ -83,7 +83,7 @@ class mikeObject:
    
     def leftP(self, vehicle):
         vehicle.channel_override = {"1":1250}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"1":1500}
         return;
 
@@ -93,7 +93,7 @@ class mikeObject:
 
     def rightP(self, vehicle):
         vehicle.channel_override = {"1":1750}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"1":1500}
         return;
 
@@ -103,7 +103,7 @@ class mikeObject:
 
     def forwardP(self, vehicle):
         vehicle.channel_override = {"2":1750}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"2":1500}
         return;
 
@@ -113,7 +113,7 @@ class mikeObject:
 
     def reverseP(self, vehicle):
         vehicle.channel_override = {"2":1250}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"2":1500}
         return;
 
@@ -123,7 +123,7 @@ class mikeObject:
 
     def spinLeftP(self, vehicle):
         vehicle.channel_override = {"4":1250}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"4":1500}
         return;
 
@@ -133,7 +133,7 @@ class mikeObject:
 
     def spinRightP(self, vehicle):
         vehicle.channel_override = {"4":1750}
-        time.sleep(0.5)
+        time.sleep(0.2)
         vehicle.channel_override = {"4":1500}
         return;
 
