@@ -23,7 +23,6 @@ def selectROI(event, x, y, flags, param):
 def main():
 	global frame, roiPts, inputMode
 	camera = cv2.VideoCapture(0)
-
 	cv2.namedWindow("frame")
 	#cv2.namedWindow("HSV")
 	#cv2.namedWindow("Back Projection")
@@ -51,8 +50,7 @@ def main():
 				cPtx = (pts[0][0] + pts[1][0] + pts[2][0] + pts[3][0]) / 4
 				cPty = (pts[0][1] + pts[1][1] + pts[2][1] + pts[3][1]) / 4
 				cPt = (cPtx, cPty)
-				boxArea = .5 * (
-				(pts[0][0] * pts[1][1]) + (pts[1][0] * pts[2][1]) + (pts[2][0] * pts[3][1]) + (pts[3][0] * pts[0][1]) - (
+				boxArea = .5 * ((pts[0][0] * pts[1][1]) + (pts[1][0] * pts[2][1]) + (pts[2][0] * pts[3][1]) + (pts[3][0] * pts[0][1]) - (
 				pts[1][0] * pts[0][1]) - (pts[2][0] * pts[1][1]) - (pts[3][0] * pts[2][1]) - (pts[0][0] * pts[3][1]))
 				print cPt
 				cv2.polylines(frame, [pts], True, (255, 204, 0), 2)
@@ -96,7 +94,6 @@ def main():
 
 	camera.release()
 	cv2.destroyAllWindows()
-
-
-if __name__ == "__main__":
-	main()
+	
+	if __name__ == "__main__":
+		main()
