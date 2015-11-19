@@ -1,13 +1,18 @@
-import numpy as np
+﻿import numpy as np
 import cv2
-import pid
-import droneControlAPI
+import Tkinter as tk
+import multiprocessing
+
+#import pid
+#import droneControlAPI
 
 frame = None
 roiPts = []
 inputMode = False
 xPts = []
 yPts = []
+
+
 
 
 def selectROI(event, x, y, flags, param):
@@ -26,9 +31,15 @@ def selectROI(event, x, y, flags, param):
 
 def main():
 	global frame, roiPts, inputMode
+	root = tk.Tk()
+	root.mainloop()
 	camera = cv2.VideoCapture(0)
-	xPid = pid.PID(.1,.1,.1)
-	yPid = pid.PID(.1,.1,.1)
+	width, height = 600 , 480
+	camera.set(3, width)
+	camera.set(4, height)
+	
+	#xPid = pid.PID(.1,.1,.1)
+	#yPid = pid.PID(.1,.1,.1)
 
 	cv2.namedWindow("frame")
 	#cv2.namedWindow("HSV")
@@ -68,11 +79,11 @@ def main():
 				#cv2.putText(frame, str(cPt), (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 				#cv2.putText(frame, str(boxArea), (7, 55), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 
-				print camera.get(3)
-				print camera.get(4)
+				#print camera.get(3)
+				#print camera.get(4)
 
-				print xPid.GenOut(cPtx-camera.get(3)/2)
-				print yPid.GenOut(cPty-camera.get(4)/2)
+				#print xPid.GenOut(cPtx-camera.get(3)/2)
+				#print yPid.GenOut(cPty-camera.get(4)/2)
 		cv2.imshow("frame", frame)
 		key = cv2.waitKey(1) & 0xFF
 
