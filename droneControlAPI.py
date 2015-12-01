@@ -1,7 +1,7 @@
 ﻿# This API is used to control the drone through Python and DroneAPI in MAVProxy. Please see the Google Doc for documentation on what these functions do.
 
 import time
-from droneControlAPI.lib import VehicleMode, Locations, Command
+import droneControlAPI
 from pymavlink import mavutil
 
 
