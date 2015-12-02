@@ -1,7 +1,14 @@
 import numpy as np
 import cv2
+import sys
+import os
+import time
+sys.path.append("/home/shan/code/trackingdrone/")
 import pid
-import droneControlAPI
+from droneapi.lib import VehicleMode, Location, Command
+from pymavlink import mavutil
+from dronekit import connect
+from droneControlAPI import mikeObject
 
 frame = None
 roiPts = []
@@ -25,10 +32,15 @@ def selectROI(event, x, y, flags, param):
 
 
 def main():
+	api=local_connect()
+	vehicle = api.get_vehicles()[0]
+
+	drone = mikeObject()
+
 	global frame, roiPts, inputMode
 	camera = cv2.VideoCapture(0)
-	xPid = pid.PID(.1,.1,.1)
-	yPid = pid.PID(.1,.1,.1)
+	xPid = pid.PID(.1,0,.1)
+	yPid = pid.PID(.1,0,.1)
 
 	cv2.namedWindow("frame")
 	#cv2.namedWindow("HSV")
