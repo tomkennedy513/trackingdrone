@@ -1,16 +1,6 @@
 import numpy as np
 import cv2
-import sys
-import os
-import time
-sys.path.append("/home/shan/code/trackingdrone/") #change for raspi
 import pid
-<<<<<<< HEAD
-from droneapi.lib import VehicleMode, Location, Command
-from pymavlink import mavutil
-from dronekit import connect
-from droneControlAPI import mikeObject
-=======
 import sys
 import os
 import time
@@ -24,30 +14,12 @@ api=local_connect()
 vehicle = api.get_vehicles()[0]
 drone = mikeObject()
 
->>>>>>> e5580a0adbfff5ea034c3b6fcaab7208d4910721
-
 frame = None
 roiPts = []
 inputMode = False
 xPts = []
 yPts = []
 
-<<<<<<< HEAD
-api=local_connect()
-vehicle = api.get_vehicles()[0]
-
-drone = mikeObject()
-
-global frame, roiPts, inputMode
-camera = cv2.VideoCapture(0)
-xPid = pid.PID(.1,0,.1)
-yPid = pid.PID(.1,0,.1)
-
-cv2.namedWindow("frame")
-#cv2.namedWindow("HSV")
-#cv2.namedWindow("Back Projection")
-
-=======
 global frame, roiPts, inputMode
 
 camera = cv2.VideoCapture(0)
@@ -61,7 +33,6 @@ drone.takeoff(vehicle)
 cv2.namedWindow("frame")
 #cv2.namedWindow("HSV")
 #cv2.namedWindow("Back Projection")
->>>>>>> e5580a0adbfff5ea034c3b6fcaab7208d4910721
 cv2.setMouseCallback("frame", selectROI)
 termination = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 0)
 roiBox = None
@@ -91,18 +62,6 @@ while True:
 			pts[1][0] * pts[0][1]) - (pts[2][0] * pts[1][1]) - (pts[3][0] * pts[2][1]) - (pts[0][0] * pts[3][1]))
 			print cPt
 			cv2.polylines(frame, [pts], True, (255, 204, 0), 2)
-<<<<<<< HEAD
-			#cv2.circle(frame, cPt, 1, (255, 0, 0), 2)
-			#cv2.putText(frame, 'target', (cPtx, (cPty - 7)), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
-			#cv2.putText(frame, str(cPt), (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
-			#cv2.putText(frame, str(boxArea), (7, 55), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
-
-			print camera.get(3)
-			print camera.get(4)
-
-			print xPid.GenOut(cPtx-camera.get(3)/2)
-			print yPid.GenOut(cPty-camera.get(4)/2)
-=======
 			cv2.circle(frame, cPt, 1, (255, 0, 0), 2)
 			cv2.putText(frame, 'target', (cPtx, (cPty - 7)), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
 			cv2.putText(frame, str(cPt), (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
@@ -118,24 +77,15 @@ while True:
 			# else
 			# 	drone.reverseV()
 
->>>>>>> e5580a0adbfff5ea034c3b6fcaab7208d4910721
 	cv2.imshow("frame", frame)
 	key = cv2.waitKey(1) & 0xFF
 
 	if key == 32 and len(roiPts) < 4:
 		inputMode = True
 		orig = frame.copy()
-<<<<<<< HEAD
-
 		while len(roiPts) < 4:
 			cv2.imshow("frame", frame)
 			cv2.waitKey(0)
-
-=======
-		while len(roiPts) < 4:
-			cv2.imshow("frame", frame)
-			cv2.waitKey(0)
->>>>>>> e5580a0adbfff5ea034c3b6fcaab7208d4910721
 		roiPts = np.array(roiPts)
 		s = roiPts.sum(axis=1)
 		tl = roiPts[np.argmin(s)]
@@ -145,16 +95,9 @@ while True:
 		roi = orig[tl[1]:br[1], tl[0]:br[0]]
 		roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 		# roi = cv2.cvtColor(roi, cv2.COLOR_BGR2LAB)
-<<<<<<< HEAD
-
-		roiHist = cv2.calcHist([roi], [0], None, [16], [0, 180])
-		roiHist = cv2.normalize(roiHist, roiHist, 0, 255, cv2.NORM_MINMAX)
-
-=======
 		mask = cv2.inRange(roi, np.array((0., 60.,32.)), np.array((180.,255.,255.)))
 		roiHist = cv2.calcHist([roi], [0], mask, [180], [0, 180])
 		roiHist = cv2.normalize(roiHist, roiHist, 0, 255, cv2.NORM_MINMAX)
->>>>>>> e5580a0adbfff5ea034c3b6fcaab7208d4910721
 		roiBox = (tl[0], tl[1], br[0], br[1])
 		print roiBox
 	# choose new target without resetting
@@ -167,10 +110,6 @@ while True:
 	elif key == ord("q"):
 		break
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e5580a0adbfff5ea034c3b6fcaab7208d4910721
 camera.release()
 cv2.destroyAllWindows()
 
@@ -185,9 +124,4 @@ def selectROI(event, x, y, flags, param):
 		print roiPts
 		if len(roiPts) == 4:
 			cv2.circle(frame, ((sum(xPts) / 4), (sum(yPts) / 4)), 1, (255, 0, 0), 2)
-<<<<<<< HEAD
 			cv2.imshow("frame", frame)
-yy
-=======
-			cv2.imshow("frame", frame)
->>>>>>> e5580a0adbfff5ea034c3b6fcaab7208d4910721
