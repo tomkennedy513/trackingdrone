@@ -16,7 +16,7 @@ class mikeObject:
         return;
 
     def takeoff(self, vehicle):
-        vehicle.mode = VehicleMode("LOITER")
+        vehicle.mode = VehicleMode("ALT_HOLD")
         time.sleep(2)
         vehicle.armed = True
         print "overriding"
@@ -49,7 +49,7 @@ class mikeObject:
 
     def land(self, vehicle):
         vehicle.mode = VehicleMode("LAND")
-        releaseControllAll()
+        self.releaseControlAll(vehicle)
         return;
 
     def hover(self, vehicle):
@@ -63,7 +63,7 @@ class mikeObject:
 
     def altDecP(self, vehicle):
         vehicle.channel_override = {"3":1250}
-        time.sleep(0.2)
+        time.sleep(0.5)
         vehicle.channel_override = {"3":1500}
         return;
 
@@ -73,7 +73,7 @@ class mikeObject:
 
     def altIncP(self, vehicle):
         vehicle.channel_override = {"3":1750}
-        time.sleep(0.2)
+        time.sleep(0.5)
         vehicle.channel_override = {"3":1500}
         return;
 
@@ -83,7 +83,7 @@ class mikeObject:
    
     def leftP(self, vehicle):
         vehicle.channel_override = {"1":1250}
-        time.sleep(0.2)
+        time.sleep(0.5)
         vehicle.channel_override = {"1":1500}
         return;
 
@@ -103,7 +103,7 @@ class mikeObject:
 
     def forwardP(self, vehicle):
         vehicle.channel_override = {"2":1750}
-        time.sleep(0.2)
+        time.sleep(0.5)
         vehicle.channel_override = {"2":1500}
         return;
 
@@ -113,7 +113,7 @@ class mikeObject:
 
     def reverseP(self, vehicle):
         vehicle.channel_override = {"2":1250}
-        time.sleep(0.2)
+        time.sleep(0.5)
         vehicle.channel_override = {"2":1500}
         return;
 
@@ -123,7 +123,7 @@ class mikeObject:
 
     def spinLeftP(self, vehicle):
         vehicle.channel_override = {"4":1250}
-        time.sleep(0.2)
+        time.sleep(0.5)
         vehicle.channel_override = {"4":1500}
         return;
 
@@ -133,7 +133,7 @@ class mikeObject:
 
     def spinRightP(self, vehicle):
         vehicle.channel_override = {"4":1750}
-        time.sleep(0.2)
+        time.sleep(0.5)
         vehicle.channel_override = {"4":1500}
         return;
 
