@@ -165,8 +165,12 @@ class mikeObject:
 
         return;
 
-    def getAngle(self, vehicle):
+    def getRoll(self, vehicle):
         angle = vehicle.attitude.roll
+        return angle;
+
+    def getPitch(self, vehicle):
+        angle = vehicle.attitude.Pitch
         return angle;
 
     def getGPSPosition(self, vehicle):

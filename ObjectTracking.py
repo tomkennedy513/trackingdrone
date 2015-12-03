@@ -38,7 +38,6 @@ camera = cv2.VideoCapture(0)
 xPid = pid.PID(.1,0,.1)
 yPid = pid.PID(.1,0,.1)
 
-
 drone.takeoff(vehicle)
 
 cv2.namedWindow("frame")
@@ -77,8 +76,22 @@ while True:
 			cv2.putText(frame, 'target', (cPtx, (cPty - 7)), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
 			cv2.putText(frame, str(cPt), (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 			cv2.putText(frame, str(boxArea), (7, 55), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
-			print xPid.GenOut(cPtx-camera.get(3)/2)
-			print yPid.GenOut(cPty-camera.get(4)/2)
+
+			roll = drone.getRoll(vehicle)
+			pitch = drone.getPitch(vehicle)
+			altitude = drone.getAltitude(vehicle)
+
+			cameraW = camera.get(3)/2
+			cameraH = camera.get(4)/2
+
+			errx = xPid.GenOut((altitude*np.tan(roll + cPtx * 30 / cameraW)))
+			erry = yPid.GenOut((altitude*np.tan(pitch+ cPty * 30 / cameraH)))
+
+			print errx
+			print erry
+
+			drone.rightV(vehicle, errx)
+			drone.forwardV(vehicle, erry)
 			# if xPid > 0
 			# 	drone.rightV()
 			# else
