@@ -6,7 +6,7 @@ import time
 from droneapi.lib import VehicleMode, Location, Command
 from pymavlink import mavutil
 from dronekit import connect
-sys.path.append("/home/pi/")
+sys.path.append("/home/shan/code/trackingdrone/")
 from droneControlAPI import mikeObject
 
 api=local_connect()
