@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import pid
-import droneControlAPI
+# import droneControlAPI
 
 
 frame = None
@@ -27,8 +27,8 @@ def main():
 	camera = cv2.VideoCapture(0)
 	xPid = pid.PID(.1,0,.1)
 	yPid = pid.PID(.1,0,.1)
-	drone = droneControlAPI.mikeObject()
-	drone.takeoff()
+	# drone = droneControlAPI.mikeObject()
+	# drone.takeoff()
 
 	cv2.namedWindow("frame")
 	#cv2.namedWindow("HSV")
