@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import pid
 import sys
 import os
 import time
@@ -9,6 +8,20 @@ from pymavlink import mavutil
 from dronekit import connect
 sys.path.append("/home/shan/code/trackingdrone/") #change this for the pi
 from droneControlAPI import mikeObject
+import pid
+
+def selectROI(event, x, y, flags, param):
+	global frame, roiPts, inputMode, yPts, xPts
+	if inputMode and event == cv2.EVENT_LBUTTONDOWN and len(roiPts) < 4:
+		roiPts.append((x, y))
+		xPts.append(x)
+		yPts.append(y)
+		cv2.circle(frame, (x, y), 4, (255, 204, 0), 2)
+		cv2.imshow("frame", frame)
+		print roiPts
+		if len(roiPts) == 4:
+			cv2.circle(frame, ((sum(xPts) / 4), (sum(yPts) / 4)), 1, (255, 0, 0), 2)
+			cv2.imshow("frame", frame)
 
 api=local_connect()
 vehicle = api.get_vehicles()[0]
@@ -19,8 +32,6 @@ roiPts = []
 inputMode = False
 xPts = []
 yPts = []
-
-global frame, roiPts, inputMode
 
 camera = cv2.VideoCapture(0)
 
@@ -112,16 +123,3 @@ while True:
 
 camera.release()
 cv2.destroyAllWindows()
-
-def selectROI(event, x, y, flags, param):
-	global frame, roiPts, inputMode, yPts, xPts
-	if inputMode and event == cv2.EVENT_LBUTTONDOWN and len(roiPts) < 4:
-		roiPts.append((x, y))
-		xPts.append(x)
-		yPts.append(y)
-		cv2.circle(frame, (x, y), 4, (255, 204, 0), 2)
-		cv2.imshow("frame", frame)
-		print roiPts
-		if len(roiPts) == 4:
-			cv2.circle(frame, ((sum(xPts) / 4), (sum(yPts) / 4)), 1, (255, 0, 0), 2)
-			cv2.imshow("frame", frame)
