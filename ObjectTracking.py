@@ -36,8 +36,8 @@ yPts = []
 
 camera = cv2.VideoCapture(0)
 
-xPid = pid.PID(.1,.1,0)
-yPid = pid.PID(.1,.1,0)
+xPid = pid.PID(1,0,0)
+yPid = pid.PID(1,0,0)
 
 cameraW = camera.get(3)/2
 cameraH = camera.get(4)/2
@@ -88,11 +88,24 @@ while True:
 			errx = xPid.GenOut((altitude*np.tan(roll + cPtx * 30 / cameraW)))
 			erry = yPid.GenOut((altitude*np.tan(pitch+ cPty * 30 / cameraH)))
 
+			errx = errx/10
+			erry = erry/10
+
+			if errx > 100:
+				errx = 100
+			elif errx < -100:
+				errx = -100
+
+			if erry > 100:
+				erry = 100
+			elif erry < -100:
+				erry = -100
+
 			print errx
 			print erry
 
-			drone.rightV(vehicle, errx)
-			drone.forwardV(vehicle, erry)
+			drone.rightV(vehicle, errx )
+			drone.forwardV(vehicle, erry )
 
 	cv2.imshow("frame", frame)
 	key = cv2.waitKey(1) & 0xFF
