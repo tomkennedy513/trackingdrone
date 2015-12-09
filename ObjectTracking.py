@@ -83,7 +83,7 @@ while True:
 
 			roll = drone.getRoll(vehicle)
 			pitch = drone.getPitch(vehicle)
-			altitude = drone.getAltitude(vehicle)
+			altitude = drone.getALT(vehicle)
 
 			errx = xPid.GenOut((altitude*np.tan(roll + cPtx * 30 / cameraW)))
 			erry = yPid.GenOut((altitude*np.tan(pitch+ cPty * 30 / cameraH)))
