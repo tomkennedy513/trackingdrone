@@ -170,7 +170,7 @@ class mikeObject:
         return angle;
 
     def getPitch(self, vehicle):
-        angle = vehicle.attitude.Pitch
+        angle = vehicle.attitude.pitch
         return angle;
 
     def getGPSPosition(self, vehicle):
