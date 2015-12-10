@@ -16,7 +16,7 @@ class mikeObject:
         return;
 
     def takeoff(self, vehicle):
-        vehicle.mode = VehicleMode("ALT_HOLD")
+        vehicle.mode = VehicleMode("LOITER")
         time.sleep(2)
         vehicle.armed = True
         print "overriding"
@@ -157,17 +157,26 @@ class mikeObject:
         vehicle.channel_override = {"1":0, "2":0, "3":0, "4":0}
         return;
 
-    def getAltitude(self, vehicle):
-        altitude = vehicle.location.global_frame.alt
-        return altitude;
+    def getALT(self, vehicle):
+        alt = float(vehicle.location.alt or 0)
+        return alt;
 
-    def getHeading(self, vehicle):
+    def getHDG(self, vehicle):
+        hdgRAD = float(vehicle.attitude.yaw or 0)
+        hdgDEG = hdgRAD*180/3.14159
+        if hdgDEG < 0:
+            hdgDEG = hdgDEG+360;
+        return hdgDEG;
 
-        return;
+    def getRoll(self, vehicle):
+        rollRAD = float(vehicle.attitude.roll or 0)
+        rollDEG = rollRAD*180/3.14159
+        return rollDEG;
 
-    def getAngle(self, vehicle):
-        angle = vehicle.attitude.roll
-        return angle;
+    def getPitch(self, vehicle):
+        pitchRAD = float(vehicle.attitude.pitch or 0)
+        pitchDEG = pitchRAD*-180/3.14159
+        return pitchDEG;
 
     def getGPSPosition(self, vehicle):
         latidude = vehicle.location.global_frame.lat
@@ -187,7 +196,7 @@ class mikeObject:
 #        0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink)
 #        send command to vehicle
 #        vehicle.send_mavlink(msg)
-#	     return;
+#        return;
 
     # GPS COORDINATES
     # Input GPS coordinates, set mode to auto
