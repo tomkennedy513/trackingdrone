@@ -50,10 +50,10 @@ cv2.namedWindow("frame")
 cv2.setMouseCallback("frame", selectROI)
 termination = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 0)
 roiBox = None
-tenthframe = 0
+frameskip = 0
 while True:
 	(grabbed, frame) = camera.read()
-	tenthframe += 1
+	frameskip += 1
 	if not grabbed:
 		break
 	if roiBox is not None:
@@ -85,8 +85,8 @@ while True:
 			cv2.putText(frame, str(cPt), (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 			cv2.putText(frame, str(boxArea), (7, 55), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 
-			if tenthframe%10 == 0:
-				tenthframe = 0
+			if frameskip%5 == 0:
+				frameskip = 0
 				roll = drone.getRoll(vehicle)
 				pitch = drone.getPitch(vehicle)
 				altitude = drone.getALT(vehicle)
