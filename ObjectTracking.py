@@ -36,11 +36,11 @@ yPts = []
 
 camera = cv2.VideoCapture(0)
 
-xPid = pid.PID(5,0,.1)
-yPid = pid.PID(5,0,.1)
+xPid = pid.PID(5,0,0)
+yPid = pid.PID(5,0,0)
 
-cameraW = camera.get(3)/2
-cameraH = camera.get(4)/2
+cameraW = camera.get(3)
+cameraH = camera.get(4)
 
 drone.takeoff(vehicle)
 
@@ -50,8 +50,10 @@ cv2.namedWindow("frame")
 cv2.setMouseCallback("frame", selectROI)
 termination = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 0)
 roiBox = None
+tenthframe = 0
 while True:
 	(grabbed, frame) = camera.read()
+	tenthframe += 1
 	if not grabbed:
 		break
 	if roiBox is not None:
@@ -64,6 +66,8 @@ while True:
 		if not r:
 			print "error"
 			cv2.putText(frame, "Object Out of Frame!", (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+			drone.rightV(vehicle, 0)
+			drone.forwardV(vehicle, 0)
 		else:
 			(r, roiBox) = cv2.CamShift(backProj, roiBox, termination)
 			pts = np.int0(cv2.cv.BoxPoints(r))
@@ -81,28 +85,33 @@ while True:
 			cv2.putText(frame, str(cPt), (7, 25), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 			cv2.putText(frame, str(boxArea), (7, 55), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
 
-			roll = drone.getRoll(vehicle)
-			pitch = drone.getPitch(vehicle)
-			altitude = drone.getALT(vehicle)
+			if tenthframe%10 == 0:
+				tenthframe = 0
+				roll = drone.getRoll(vehicle)
+				pitch = drone.getPitch(vehicle)
+				altitude = drone.getALT(vehicle)
 
-			errx = xPid.GenOut((altitude*np.tan(roll + cPtx * 30 / cameraW)))
-			erry = yPid.GenOut((altitude*np.tan(pitch+ cPty * 30 / cameraH)))
+				# errx = xPid.GenOut((altitude*np.tan(roll + cPtx * 30 / cameraW)))
+				# erry = yPid.GenOut((altitude*np.tan(pitch+ cPty * 30 / cameraH)))
+				errx = xPid.GenOut(cPtx - cameraW/2)
+				erry = yPid.GenOut(cPty - cameraH/2)
 
-			if errx > 100:
-				errx = 100
-			elif errx < -100:
-				errx = -100
+				print "x,y"
+				print errx
+				print erry
 
-			if erry > 100:
-				erry = 100
-			elif erry < -100:
-				erry = -100
+				if errx > 50:
+					errx = 50
+				elif errx < -50:
+					errx = -50
 
-			print errx
-			print erry
+				if erry > 50:
+					erry = 50
+				elif erry < -50:
+					erry = -50
 
-			drone.rightV(vehicle, errx )
-			drone.forwardV(vehicle, erry )
+				drone.rightV(vehicle, errx )
+				drone.forwardV(vehicle, erry )
 
 	cv2.imshow("frame", frame)
 	key = cv2.waitKey(1) & 0xFF
