@@ -36,8 +36,8 @@ yPts = []
 
 camera = cv2.VideoCapture(0)
 
-xPid = pid.PID(1,0,0)
-yPid = pid.PID(1,0,0)
+xPid = pid.PID(5,0,.1)
+yPid = pid.PID(5,0,.1)
 
 cameraW = camera.get(3)/2
 cameraH = camera.get(4)/2
@@ -74,7 +74,7 @@ while True:
 			boxArea = .5 * (
 			(pts[0][0] * pts[1][1]) + (pts[1][0] * pts[2][1]) + (pts[2][0] * pts[3][1]) + (pts[3][0] * pts[0][1]) - (
 			pts[1][0] * pts[0][1]) - (pts[2][0] * pts[1][1]) - (pts[3][0] * pts[2][1]) - (pts[0][0] * pts[3][1]))
-			print cPt
+			# print cPt
 			cv2.polylines(frame, [pts], True, (255, 204, 0), 2)
 			cv2.circle(frame, cPt, 1, (255, 0, 0), 2)
 			cv2.putText(frame, 'target', (cPtx, (cPty - 7)), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
@@ -87,9 +87,6 @@ while True:
 
 			errx = xPid.GenOut((altitude*np.tan(roll + cPtx * 30 / cameraW)))
 			erry = yPid.GenOut((altitude*np.tan(pitch+ cPty * 30 / cameraH)))
-
-			errx = errx/10
-			erry = erry/10
 
 			if errx > 100:
 				errx = 100
